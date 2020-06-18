@@ -12,7 +12,7 @@ class Search extends Component {
 	}
 
 	async componentDidMount() {
-		const { match, location } = this.props;
+		const { location } = this.props;
 		const { anime } = queryString.parse(location.search);
 
 		const search = await axios.get(
@@ -26,18 +26,26 @@ class Search extends Component {
 	render() {
 		return (
 			<div>
-				<div>
-					{this.state.animeList.map((anime) => {
-						return (
-							<div>
-								<p>
-									{anime.title}, {anime.score}
-								</p>
-								<img src={anime.image_url} alt={anime.title} />
+				{this.state.animeList.map((anime) => {
+					return (
+						<div class="col s12 m6 l12	">
+							<div class="card small horizontal">
+								<div class="card-image">
+									<img src={anime.image_url} alt={anime.title} />
+								</div>
+								<div class="card-stacked">
+									<div class="card-content">
+										<span class="card-title">{anime.title}</span>
+										<p>{anime.synopsis}</p>
+									</div>
+									<div class="card-action">
+										<a href={anime.url}>Learn more</a>
+									</div>
+								</div>
 							</div>
-						);
-					})}
-				</div>
+						</div>
+					);
+				})}
 			</div>
 		);
 	}
