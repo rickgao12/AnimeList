@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import AnimeEntry from './AnimeEntry';
+import Grid from '@material-ui/core/Grid';
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import { withStyles } from '@material-ui/core/styles';
 
 const queryString = require('query-string');
+
+const styles = () => ({
+	root: {},
+	container: {}
+});
 
 class Search extends Component {
 	constructor(props) {
@@ -24,31 +35,21 @@ class Search extends Component {
 	}
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div>
-				{this.state.animeList.map((anime) => {
-					return (
-						<div class="col s12 m6 l12	">
-							<div class="card small horizontal">
-								<div class="card-image">
-									<img src={anime.image_url} alt={anime.title} />
-								</div>
-								<div class="card-stacked">
-									<div class="card-content">
-										<span class="card-title">{anime.title}</span>
-										<p>{anime.synopsis}</p>
-									</div>
-									<div class="card-action">
-										<a href={anime.url}>Learn more</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					);
-				})}
+			<div className={classes.root}>
+				<Grid container style={{ marginTop: 20 }} alignItems="flex-start" justify="center" spacing={0}>
+					{this.state.animeList.map(({ image_url, title, synopsis, url }) => {
+						return (
+							<Grid item xs={'auto'} md={'auto'} lg={'auto'} xl={'auto'} style={{ margin: 10 }}>
+								<AnimeEntry image_url={image_url} title={title} synopsis={synopsis} url={url} />
+							</Grid>
+						);
+					})}
+				</Grid>
 			</div>
 		);
 	}
 }
 
-export default Search;
+export default withStyles(styles)(Search);

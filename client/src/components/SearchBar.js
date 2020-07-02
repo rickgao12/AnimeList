@@ -7,7 +7,7 @@ class SearchBar extends Component {
 				<div class="col s12 m12">
 					<div class="card">
 						<div className="card-content">
-							<form action="/search">
+							<form action="/search/title">
 								<div className="nav-wrapper">
 									<div className="input-field">
 										<input
@@ -16,6 +16,7 @@ class SearchBar extends Component {
 											type="search"
 											placeholder="Search for an anime e.g. Naruto"
 											required
+											autoFocus
 										/>
 										<label className="label-icon" htmlFor="anime">
 											<i className="material-icons">search</i>

@@ -12,7 +12,7 @@ class Header extends Component {
 	render() {
 		return (
 			<nav className="light-blue">
-				<div style={{ marginLeft: '2%' }} className="nav-wrapper">
+				<div style={{ marginLeft: '1%', fontFamily: 'Sriracha, cursive' }} className="nav-wrapper">
 					<Link to="/" className="brand-logo left">
 						Animely
 					</Link>
@@ -24,7 +24,7 @@ class Header extends Component {
 						</li>
 						<li>
 							<Link to="/seasonals">
-								<i className="material-icons left">whatshot</i>Seasonal anime
+								<i className="material-icons left">visibility</i>What's airing
 							</Link>
 						</li>
 					</ul>
