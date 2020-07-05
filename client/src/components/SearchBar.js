@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, memo, useContext } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button } from '@material-ui/core';
-import Search from './Search.js';
+import { Input, Button, FormControl } from '@material-ui/core';
+import { AnimeContext } from './AnimeContext';
 
 const useStyles = makeStyles((theme) => ({
 	searchContainer: {
@@ -28,11 +28,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SearchBar = () => {
+const SearchBar = memo(() => {
 	const classes = useStyles();
 
+	const { setAnime } = useContext(AnimeContext);
+
 	const [ filter, setFilter ] = useState('');
-	const [ anime, setAnime ] = useState('');
+
+	const handleChange = (e) => {
+		setFilter(e.target.value);
+	};
 
 	return (
 		<div>
@@ -45,6 +50,7 @@ const SearchBar = () => {
 					onSubmit={(e) => {
 						e.preventDefault();
 						setAnime(filter);
+						setFilter('');
 					}}
 					onReset={() => {
 						setAnime('');
@@ -52,14 +58,16 @@ const SearchBar = () => {
 					}}
 				>
 					<SearchIcon className={classes.searchIcon} />
-					<TextField
-						className={classes.searchInput}
-						label=""
-						placeholder="Search for your favorite anime"
-						variant="standard"
-						onChange={(e) => setFilter(e.target.value)}
-						InputProps={{ disableUnderline: true }}
-					/>
+					<FormControl>
+						<Input
+							value={filter}
+							className={classes.searchInput}
+							placeholder="Search for your favorite anime..."
+							onChange={handleChange}
+							disableUnderline={true}
+						/>
+					</FormControl>
+
 					<Button
 						variant="contained"
 						style={{
@@ -84,11 +92,8 @@ const SearchBar = () => {
 					</Button>
 				</form>
 			</div>
-			<div>
-				<Search anime={anime} />
-			</div>
 		</div>
 	);
-};
+});
 
 export default SearchBar;

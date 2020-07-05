@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import AnimeEntry from './AnimeEntry';
 import { Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { AnimeContext } from './AnimeContext';
 
 const useStyles = makeStyles(() => ({
 	root: {},
@@ -12,14 +13,15 @@ const useStyles = makeStyles(() => ({
 const Search = (props) => {
 	const [ animeList, setAnimeList ] = useState([]);
 	const classes = useStyles();
-	const { anime } = props;
-	const [ loaded, setLoaded ] = useState(false);
 
+	const { anime } = useContext(AnimeContext);
+	const [ loaded, setLoaded ] = useState(false);
 	useEffect(
 		() => {
 			const fetchData = async () => {
 				setLoaded(false);
 				const search = await axios.get(`https://api.jikan.moe/v3/search/anime?q=${anime}`);
+				if (anime === undefined) return new Error('Undefined anime title');
 				setAnimeList(search.data.results);
 				setLoaded(true);
 			};
@@ -27,9 +29,6 @@ const Search = (props) => {
 		},
 		[ anime ]
 	);
-
-	//const { location } = this.props;
-	//const { anime } = queryString.parse(location.search);
 
 	return (
 		<div className={classes.root}>
