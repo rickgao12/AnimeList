@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import AnimeEntry from './AnimeEntry';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AnimeContext } from './AnimeContext';
+import MovieIcon from '@material-ui/icons/Movie';
 
 const useStyles = makeStyles(() => ({
-	root: {},
+	root: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
 	container: {}
 }));
 
@@ -24,6 +29,7 @@ const Search = (props) => {
 				if (anime === undefined) return new Error('Undefined anime title');
 				setAnimeList(search.data.results);
 				setLoaded(true);
+				console.log(anime);
 			};
 			fetchData();
 		},
@@ -31,9 +37,9 @@ const Search = (props) => {
 	);
 
 	return (
-		<div className={classes.root}>
+		<div>
 			<Grid container style={{ marginTop: 20 }} alignItems="flex-start" justify="center" spacing={0}>
-				{loaded ? (
+				{loaded && anime ? (
 					animeList.map(({ image_url, title, synopsis, url }) => {
 						return (
 							<Grid item xs={'auto'} md={'auto'} lg={'auto'} xl={'auto'} style={{ margin: 10 }}>
@@ -41,6 +47,11 @@ const Search = (props) => {
 							</Grid>
 						);
 					})
+				) : loaded && !anime ? (
+					<div className={classes.root}>
+						<MovieIcon style={{ width: 50, height: 50, marginRight: '20px' }} />
+						<Typography variant="h4">Start searching for your favorite anime!</Typography>
+					</div>
 				) : (
 					<CircularProgress />
 				)}
