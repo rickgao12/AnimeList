@@ -1,7 +1,7 @@
 import React, { useState, memo, useContext } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Input, Button, FormControl } from '@material-ui/core';
+import { TextField, Button, FormControl } from '@material-ui/core';
 import { AnimeContext } from './AnimeContext';
 
 const useStyles = makeStyles((theme) => ({

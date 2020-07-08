@@ -4,7 +4,6 @@ import AnimeEntry from './AnimeEntry';
 import { Grid, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AnimeContext } from './AnimeContext';
-import MovieIcon from '@material-ui/icons/Movie';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -29,7 +28,6 @@ const Search = (props) => {
 				if (anime === undefined) return new Error('Undefined anime title');
 				setAnimeList(search.data.results);
 				setLoaded(true);
-				console.log(anime);
 			};
 			fetchData();
 		},
@@ -40,17 +38,29 @@ const Search = (props) => {
 		<div>
 			<Grid container style={{ marginTop: 20 }} alignItems="flex-start" justify="center" spacing={0}>
 				{loaded && anime ? (
-					animeList.map(({ image_url, title, synopsis, url }) => {
+					animeList.map(({ mal_id, image_url, title, synopsis, url }) => {
 						return (
 							<Grid item xs={'auto'} md={'auto'} lg={'auto'} xl={'auto'} style={{ margin: 10 }}>
-								<AnimeEntry image_url={image_url} title={title} synopsis={synopsis} url={url} />
+								<AnimeEntry
+									mal_id={mal_id}
+									image_url={image_url}
+									title={title}
+									synopsis={synopsis}
+									url={url}
+								/>
 							</Grid>
 						);
 					})
 				) : loaded && !anime ? (
 					<div className={classes.root}>
-						<MovieIcon style={{ width: 50, height: 50, marginRight: '20px' }} />
-						<Typography variant="h4">Start searching for your favorite anime!</Typography>
+						<div style={{ display: 'flex', flexDirection: 'column' }}>
+							<Typography align="center" variant="h4">
+								Start searching for your favorite anime!
+							</Typography>
+							<Typography align="center" variant="h5">
+								Results will appear below!
+							</Typography>
+						</div>
 					</div>
 				) : (
 					<CircularProgress />

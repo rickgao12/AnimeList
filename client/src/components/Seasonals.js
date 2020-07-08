@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { GridList, GridListTile, GridListTileBar, IconButton, Typography, CircularProgress } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,14 +28,22 @@ const useStyles = makeStyles((theme) => ({
 	icon: {
 		color: 'rgba(255, 255, 255, 0.54)'
 	},
-	text: {
-		display: 'flex',
-		alignItems: 'center',
-		margin: '20px'
-	}
+	text: { display: 'flex', alignItems: 'center', margin: '20px' }
 }));
 
-const Seasonals = () => {
+function useWidth() {
+	const theme = useTheme();
+	const keys = [ ...theme.breakpoints.keys ].reverse();
+	return (
+		keys.reduce((output, key) => {
+			// eslint-disable-next-line react-hooks/rules-of-hooks
+			const matches = useMediaQuery(theme.breakpoints.up(key));
+			return !output && matches ? key : output;
+		}, null) || 'xs'
+	);
+}
+
+const Seasonals = (props) => {
 	const [ seasonalList, setSeasonalList ] = useState([]);
 	const [ seasonName, setSeasonName ] = useState('');
 	const [ seasonYear, setSeasonYear ] = useState('');
@@ -68,64 +78,88 @@ const Seasonals = () => {
 		getFutureData();
 	}, []);
 
+	const width = useWidth();
+
 	return (
 		<div>
-			<Typography className={classes.text} variant="h5">
-				<WhatshotIcon />
-				Top Picks for: {seasonName} {seasonYear}
-			</Typography>
-			<GridList cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
-				{loaded ? (
-					seasonalList.map(({ image_url, title, synopsis }) => {
-						return (
-							<div style={{ width: '20%' }} className={classes.root}>
-								<GridListTile className={classes.tile}>
-									<img className={classes.tile} style={{}} src={image_url} alt={title} />
-									<GridListTileBar
-										title={title}
-										subtitle={<span>by: {title}</span>}
-										actionIcon={
-											<IconButton aria-label={`info about ${title}`} className={classes.icon}>
-												<InfoIcon />
-											</IconButton>
-										}
-									/>
-								</GridListTile>
-							</div>
-						);
-					})
-				) : (
-					<CircularProgress style={{ width: '5%', height: '5%' }} />
-				)}
-			</GridList>
-			<Typography style={{ marginTop: '5%' }} className={classes.text} variant="h5">
-				<CalendarTodayIcon style={{ marginRight: '1%' }} />
-				Anime Coming Soon!
-			</Typography>
-			<GridList cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
-				{laterDataLoaded ? (
-					laterAnimeList.map(({ image_url, title, synopsis }) => {
-						return (
-							<div style={{ width: '20%' }} className={classes.root}>
-								<GridListTile className={classes.tile}>
-									<img className={classes.tile} style={{}} src={image_url} alt={title} />
-									<GridListTileBar
-										title={title}
-										subtitle={<span>by: {title}</span>}
-										actionIcon={
-											<IconButton aria-label={`info about ${title}`} className={classes.icon}>
-												<InfoIcon />
-											</IconButton>
-										}
-									/>
-								</GridListTile>
-							</div>
-						);
-					})
-				) : (
-					<CircularProgress style={{ width: '5%', height: '5%' }} />
-				)}
-			</GridList>
+			<div>
+				<div className={classes.text}>
+					<WhatshotIcon style={{ fill: 'red', marginRight: '10px' }} />
+					<Typography variant="h5">
+						Top Picks for:{' '}
+						<span style={{ color: 'blue' }}>
+							{seasonName} {seasonYear}{' '}
+						</span>
+					</Typography>
+				</div>
+
+				<GridList
+					cols={() => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : 2)}
+					cellHeight={250}
+					className={classes.gridList}
+					style={{ overflow: 'hidden' }}
+				>
+					{loaded ? (
+						seasonalList.map(({ image_url, title, synopsis }) => {
+							return (
+								<div className={classes.root}>
+									<GridListTile className={classes.tile}>
+										<img className={classes.tile} style={{}} src={image_url} alt={title} />
+										<GridListTileBar
+											title={title}
+											subtitle={<span>by: {title}</span>}
+											actionIcon={
+												<IconButton aria-label={`info about ${title}`} className={classes.icon}>
+													<InfoIcon />
+												</IconButton>
+											}
+										/>
+									</GridListTile>
+								</div>
+							);
+						})
+					) : (
+						<CircularProgress style={{ width: '5%', height: '5%' }} />
+					)}
+				</GridList>
+			</div>
+
+			<div>
+				<div className={classes.text}>
+					<CalendarTodayIcon style={{ fill: 'red', marginRight: '10px' }} />
+					<Typography variant="h5">Anime Coming Soon!</Typography>
+				</div>
+
+				<GridList
+					cols={() => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : 2)}
+					cellHeight={250}
+					className={classes.gridList}
+					style={{ overflow: 'hidden' }}
+				>
+					{laterDataLoaded ? (
+						laterAnimeList.map(({ image_url, title, synopsis }) => {
+							return (
+								<div className={classes.root}>
+									<GridListTile className={classes.tile}>
+										<img className={classes.tile} style={{}} src={image_url} alt={title} />
+										<GridListTileBar
+											title={title}
+											subtitle={<span>by: {title}</span>}
+											actionIcon={
+												<IconButton aria-label={`info about ${title}`} className={classes.icon}>
+													<InfoIcon />
+												</IconButton>
+											}
+										/>
+									</GridListTile>
+								</div>
+							);
+						})
+					) : (
+						<CircularProgress style={{ width: '5%', height: '5%' }} />
+					)}
+				</GridList>
+			</div>
 		</div>
 	);
 };

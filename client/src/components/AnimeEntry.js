@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const styles = () => ({
 	root: {
@@ -15,7 +16,7 @@ const styles = () => ({
 
 class AnimeEntry extends Component {
 	render() {
-		const { image_url, title, synopsis, url, classes } = this.props;
+		const { image_url, title, synopsis, url, classes, mal_id } = this.props;
 
 		return (
 			<Card className={classes.root}>
@@ -31,11 +32,14 @@ class AnimeEntry extends Component {
 					</CardContent>
 				</CardActionArea>
 				<CardActions>
-					<Button size="small" color="primary">
-						Share
-					</Button>
+					<Link to={`/id/${mal_id}`}>
+						<Button size="small" color="primary">
+							Learn more
+						</Button>
+					</Link>
+
 					<Button href={url} size="small" color="primary">
-						Learn More
+						MyAnimeList
 					</Button>
 				</CardActions>
 			</Card>

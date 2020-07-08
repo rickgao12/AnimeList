@@ -40,7 +40,7 @@ const Header = () => {
 			style={{ background: 'linear-gradient(to top, rgb(32, 180, 238), rgb(32, 132, 238))' }}
 			position="relative"
 		>
-			<Toolbar disableGutters="true">
+			<Toolbar disableGutters>
 				<Typography className={classes.logo} variant="h4" color="inherit" noWrap>
 					Animely
 				</Typography>
