@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, Grid, Card, CardContent, CardMedia } from '@material-ui/core';
+import Recommendations from './Recommendations';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -11,15 +12,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	CardContent: {
-		padding: 0,
+		padding: 16,
 		'&:last-child': {
-			paddingBottom: 0
+			paddingBottom: '16px'
 		}
 	},
 	media: {
 		margin: '0 auto',
 		height: 500,
-		width: '90%',
+		width: '70%',
 		objectFit: 'cover',
 		[theme.breakpoints.down('lg')]: {
 			height: 400
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('xs')]: {
 			width: '100%'
 		}
+	},
+	text: {
+		margin: 20
 	}
 }));
 
@@ -41,28 +45,38 @@ const AnimeInfo = ({ match }) => {
 
 	const id = match.params.id;
 	const [ animeData, setAnimeData ] = useState('');
-	const renders = useRef(0);
+	const [ studio, setStudio ] = useState([]);
 
-	useEffect(() => {
-		const getAnimeInfo = async () => {
-			// const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}`);
-			// setAnimeData(fetchData.data);
-		};
-		//getAnimeInfo();
-	}, []);
+	useEffect(
+		() => {
+			const getAnimeInfo = async () => {
+				const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}`);
+				setAnimeData(fetchData.data);
+				setStudio(fetchData.data.studios.map((studio) => studio.name));
+			};
+			getAnimeInfo();
+		},
+		[ id ]
+	);
 
-	console.log('hello world');
+	//[Type, Score, Source, Popularity, Episodes, Aired]
 	return (
 		<Paper elevation={3} className={classes.paper}>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Typography component="h1" variant="h4" align="left">
-						Jojo no Kimyou na Bouken
+					<Typography
+						style={{ borderBottom: '1px solid rgb(191, 189, 184)' }}
+						component="h1"
+						variant="h4"
+						align="left"
+					>
+						{animeData.title}
 					</Typography>
 				</Grid>
-				<Grid item container xs={12} md={6} lg={6} spacing={2}>
+
+				<Grid item container xs={12} md={6} lg={6} spacing={0}>
 					<Grid item xs={6} md={12} xl={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent
 								style={{ display: 'flex', justifyContent: 'center' }}
 								className={classes.CardContent}
@@ -70,12 +84,12 @@ const AnimeInfo = ({ match }) => {
 								<Typography align="left" display="initial">
 									Type:&nbsp;
 								</Typography>
-								<Typography>TV</Typography>
+								<Typography>{animeData.type}</Typography>
 							</CardContent>
 						</Card>
 					</Grid>
 					<Grid item xs={6} md={12} xl={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent
 								style={{ display: 'flex', justifyContent: 'center' }}
 								className={classes.CardContent}
@@ -83,12 +97,12 @@ const AnimeInfo = ({ match }) => {
 								<Typography align="left" display="initial">
 									Score:&nbsp;
 								</Typography>
-								<Typography>7.13</Typography>
+								<Typography>{animeData.score}</Typography>
 							</CardContent>
 						</Card>
 					</Grid>
 					<Grid item xs={6} md={12} xl={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent
 								style={{ display: 'flex', justifyContent: 'center' }}
 								className={classes.CardContent}
@@ -96,12 +110,12 @@ const AnimeInfo = ({ match }) => {
 								<Typography align="left" display="initial">
 									Source:&nbsp;
 								</Typography>
-								<Typography>Manga</Typography>
+								<Typography>{animeData.source}</Typography>
 							</CardContent>
 						</Card>
 					</Grid>
 					<Grid item xs={6} md={12} xl={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent
 								style={{ display: 'flex', justifyContent: 'center' }}
 								className={classes.CardContent}
@@ -109,12 +123,12 @@ const AnimeInfo = ({ match }) => {
 								<Typography align="left" display="initial">
 									Popularity:&nbsp;
 								</Typography>
-								<Typography>#1027</Typography>
+								<Typography>#{animeData.popularity}</Typography>
 							</CardContent>
 						</Card>
 					</Grid>
 					<Grid item xs={6} md={12} xl={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent
 								style={{ display: 'flex', justifyContent: 'center' }}
 								className={classes.CardContent}
@@ -122,36 +136,28 @@ const AnimeInfo = ({ match }) => {
 								<Typography align="left" display="initial">
 									Episodes:&nbsp;
 								</Typography>
-								<Typography>6</Typography>
+								<Typography>{animeData.episodes}</Typography>
 							</CardContent>
 						</Card>
 					</Grid>
 					<Grid item xs={6} md={12} xl={6}>
-						<Card>
-							<CardContent
-								style={{ display: 'flex', justifyContent: 'center' }}
-								className={classes.CardContent}
-							>
-								<Typography display="initial">Aired:&nbsp;</Typography>
-								<Typography>Nov 19, 1993 - Nov 18, 1994</Typography>
+						<Card variant="outlined">
+							<CardContent className={classes.CardContent}>
+								<div style={{ display: 'flex', justifyContent: 'center' }}>
+									<Typography display="initial">Studios:&nbsp;</Typography>
+									<Typography noWrap>{studio.join()}</Typography>
+								</div>
 							</CardContent>
 						</Card>
 					</Grid>
 					<Grid item xs={12} md={12} xl={12}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent
 								style={{ display: 'flex', justifyContent: 'center' }}
 								className={classes.CardContent}
 							>
 								<Typography style={{ padding: '5px' }} align="left">
-									Kujo Jotaro is a normal, popular Japanese high-schooler, until he thinks that he is
-									possessed by a spirit, and locks himself in prison. After seeing his grandfather,
-									Joseph Joestar, and fighting Joseph's friend Muhammad Abdul, Jotaro learns that the
-									"Spirit" is actually Star Platinum, his Stand, or fighting energy given a semi-solid
-									form. Later, his mother gains a Stand, and becomes sick. Jotaro learns that it is
-									because the vampire Dio Brando has been revived 100 years after his defeat to
-									Jonathan Joestar, Jotaro's great-great-grandfather. Jotaro decides to join Joseph
-									and Abdul in a trip to Egypt to defeat Dio once and for all.
+									{animeData.synopsis}
 								</Typography>
 							</CardContent>
 						</Card>
@@ -162,8 +168,15 @@ const AnimeInfo = ({ match }) => {
 						style={{ borderRadius: '10px' }}
 						className={classes.media}
 						component="img"
-						image="https://cdn.myanimelist.net/images/anime/1801/104558.jpg?s=0536a9f22ce06d403ec17055d03a61b3"
+						image={animeData.image_url}
+						alt={animeData.title}
 					/>
+				</Grid>
+				<Grid item xs={12}>
+					<Typography className={classes.text} variant="h5">
+						Anime similar to {animeData.title}
+					</Typography>
+					<Recommendations id={id} />
 				</Grid>
 			</Grid>
 		</Paper>

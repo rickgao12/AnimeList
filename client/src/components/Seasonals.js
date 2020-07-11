@@ -5,6 +5,7 @@ import { GridList, GridListTile, GridListTileBar, IconButton, Typography, Circul
 import InfoIcon from '@material-ui/icons/Info';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import { Link } from 'react-router-dom';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
@@ -51,7 +52,7 @@ const Seasonals = (props) => {
 	const [ laterDataLoaded, setLaterDataLoaded ] = useState(false);
 
 	const [ laterAnimeList, setLaterAnimeList ] = useState([]);
-
+	const width = useWidth();
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -78,7 +79,7 @@ const Seasonals = (props) => {
 		getFutureData();
 	}, []);
 
-	const width = useWidth();
+	const getCols = () => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : 2);
 
 	return (
 		<div>
@@ -93,16 +94,11 @@ const Seasonals = (props) => {
 					</Typography>
 				</div>
 
-				<GridList
-					cols={() => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : 2)}
-					cellHeight={250}
-					className={classes.gridList}
-					style={{ overflow: 'hidden' }}
-				>
+				<GridList cols={getCols()} cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
 					{loaded ? (
-						seasonalList.map(({ image_url, title, synopsis }) => {
+						seasonalList.map(({ image_url, title, mal_id }) => {
 							return (
-								<div className={classes.root}>
+								<div key={title} className={classes.root}>
 									<GridListTile className={classes.tile}>
 										<img className={classes.tile} style={{}} src={image_url} alt={title} />
 										<GridListTileBar
@@ -110,7 +106,9 @@ const Seasonals = (props) => {
 											subtitle={<span>by: {title}</span>}
 											actionIcon={
 												<IconButton aria-label={`info about ${title}`} className={classes.icon}>
-													<InfoIcon />
+													<Link to={`/id/${mal_id}`}>
+														<InfoIcon />
+													</Link>
 												</IconButton>
 											}
 										/>
@@ -130,18 +128,13 @@ const Seasonals = (props) => {
 					<Typography variant="h5">Anime Coming Soon!</Typography>
 				</div>
 
-				<GridList
-					cols={() => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : 2)}
-					cellHeight={250}
-					className={classes.gridList}
-					style={{ overflow: 'hidden' }}
-				>
+				<GridList cols={getCols()} cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
 					{laterDataLoaded ? (
-						laterAnimeList.map(({ image_url, title, synopsis }) => {
+						laterAnimeList.map(({ image_url, title }) => {
 							return (
-								<div className={classes.root}>
+								<div key={title} className={classes.root}>
 									<GridListTile className={classes.tile}>
-										<img className={classes.tile} style={{}} src={image_url} alt={title} />
+										<img className={classes.tile} src={image_url} alt={title} />
 										<GridListTileBar
 											title={title}
 											subtitle={<span>by: {title}</span>}

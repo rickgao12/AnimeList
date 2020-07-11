@@ -40,7 +40,7 @@ const Search = (props) => {
 				{loaded && anime ? (
 					animeList.map(({ mal_id, image_url, title, synopsis, url }) => {
 						return (
-							<Grid item xs={'auto'} md={'auto'} lg={'auto'} xl={'auto'} style={{ margin: 10 }}>
+							<Grid item key={title} xs={'auto'} style={{ margin: 10 }}>
 								<AnimeEntry
 									mal_id={mal_id}
 									image_url={image_url}
