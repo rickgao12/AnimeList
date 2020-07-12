@@ -6,7 +6,7 @@ import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Footer from './components/Footer';
 import { AnimeContext } from './components/AnimeContext';
-import AnimeInfo from './components/AnimeInfo';
+import AnimeInfo from './components/AnimeInfo/AnimeInfo';
 
 function App() {
 	const [ anime, setAnime ] = useState('');
