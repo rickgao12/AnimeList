@@ -78,7 +78,7 @@ const Seasonals = (props) => {
 		getFutureData();
 	}, []);
 
-	const getCols = () => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : 2);
+	const getCols = () => (width === 'xl' ? 6 : width === 'lg' ? 5 : width === 'md' ? 3 : width === 'sm' ? 2 : 1);
 
 	return (
 		<div>
@@ -86,9 +86,9 @@ const Seasonals = (props) => {
 				<div className={classes.text}>
 					<WhatshotIcon style={{ fill: 'red', marginRight: '10px' }} />
 					<Typography variant="h5">
-						Top Picks for:{' '}
+						Top Picks for: &nbsp;
 						<span style={{ color: 'blue' }}>
-							{seasonName} {seasonYear}{' '}
+							{seasonName} {seasonYear}
 						</span>
 					</Typography>
 				</div>
@@ -104,11 +104,14 @@ const Seasonals = (props) => {
 											title={title}
 											subtitle={<span>by: {title}</span>}
 											actionIcon={
-												<IconButton aria-label={`info about ${title}`} className={classes.icon}>
-													<Link to={`/id/${mal_id}`}>
+												<Link to={`/id/${mal_id}`}>
+													<IconButton
+														aria-label={`info about ${title}`}
+														className={classes.icon}
+													>
 														<InfoIcon />
-													</Link>
-												</IconButton>
+													</IconButton>
+												</Link>
 											}
 										/>
 									</GridListTile>
@@ -129,7 +132,7 @@ const Seasonals = (props) => {
 
 				<GridList cols={getCols()} cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
 					{laterDataLoaded ? (
-						laterAnimeList.map(({ image_url, title }) => {
+						laterAnimeList.map(({ image_url, title, mal_id }) => {
 							return (
 								<div key={title} className={classes.root}>
 									<GridListTile className={classes.tile}>
@@ -138,9 +141,14 @@ const Seasonals = (props) => {
 											title={title}
 											subtitle={<span>by: {title}</span>}
 											actionIcon={
-												<IconButton aria-label={`info about ${title}`} className={classes.icon}>
-													<InfoIcon />
-												</IconButton>
+												<Link to={`/id/${mal_id}`}>
+													<IconButton
+														aria-label={`info about ${title}`}
+														className={classes.icon}
+													>
+														<InfoIcon />
+													</IconButton>
+												</Link>
 											}
 										/>
 									</GridListTile>
