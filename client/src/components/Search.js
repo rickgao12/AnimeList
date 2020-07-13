@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import AnimeEntry from './AnimeEntry';
+import AnimeEntry from './SearchEntry';
 import { Grid, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AnimeContext } from './AnimeContext';
+import { AnimeContext } from '../utils/AnimeContext';
 
 const useStyles = makeStyles(() => ({
 	root: {

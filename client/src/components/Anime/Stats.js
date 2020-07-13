@@ -13,7 +13,7 @@ import {
 	ThemeProvider
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { theme } from './TableTheme';
+import { theme } from '../../utils/TableTheme';
 
 const useStyles = makeStyles((theme) => ({
 	text: {
@@ -34,8 +34,9 @@ const useStyles = makeStyles((theme) => ({
 		whiteSpace: 'normal',
 		wordBreak: 'break-word'
 	},
-	test: {
-		display: 'flex'
+	chip: {
+		background: 'linear-gradient(to top, rgb(32, 180, 238), rgb(32, 132, 238))',
+		color: '#fff'
 	},
 	large: {
 		width: theme.spacing(8),
@@ -70,15 +71,7 @@ const AnimeLogisticInfo = ({ anime }) => {
 						{animeTag.map(({ name }) => {
 							return (
 								<Box key={name} fontWeight="fontWeightLight" m={0.5}>
-									<Chip
-										style={{
-											background: 'linear-gradient(to top, rgb(32, 180, 238), rgb(32, 132, 238))',
-											color: '#fff',
-											fontSize: '13px'
-										}}
-										label={name}
-										onClick={handleClick}
-									/>
+									<Chip className={classes.chip} label={name} onClick={handleClick} />
 								</Box>
 							);
 						})}
@@ -116,15 +109,7 @@ const AnimeLogisticInfo = ({ anime }) => {
 									</TableCell>
 									<TableCell component="td" align="left">
 										<Box fontWeight="fontWeightLight" m={0.5}>
-											<Chip
-												style={{
-													background:
-														'linear-gradient(to top, rgb(32, 180, 238), rgb(32, 132, 238))',
-													color: '#fff'
-												}}
-												label={row.data}
-												onClick={handleClick}
-											/>
+											<Chip className={classes.chip} label={row.data} onClick={handleClick} />
 										</Box>
 									</TableCell>
 								</TableRow>

@@ -6,7 +6,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
-
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({

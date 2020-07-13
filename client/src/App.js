@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Landing from './components/Landing';
-import Header from './components/Header';
+import Landing from './layout/Landing';
+import Header from './layout/Header';
 import Seasonals from './components/Seasonals';
 import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Footer from './components/Footer';
-import { AnimeContext } from './components/AnimeContext';
-import AnimeInfo from './components/AnimeInfo/AnimeInfo';
+import Footer from './layout/Footer';
+import { AnimeContext } from './utils/AnimeContext';
+import AnimeInfo from './components/Anime/Anime';
 
 function App() {
 	const [ anime, setAnime ] = useState('');

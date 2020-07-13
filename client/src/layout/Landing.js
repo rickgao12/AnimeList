@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Search from './Search';
-import SearchBar from './SearchBar';
+import Search from '../components/Search';
+import SearchBar from '../components/SearchBar';
 
 export default class Landing extends Component {
 	render() {
