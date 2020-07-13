@@ -58,7 +58,7 @@ const Search = (props) => {
 								Start searching for your favorite anime!
 							</Typography>
 							<Typography align="center" variant="h5">
-								Results will appear below!
+								Results will appear here!
 							</Typography>
 						</div>
 					</div>

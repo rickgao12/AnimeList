@@ -5,12 +5,14 @@ export const theme = createMuiTheme({
 		MuiTableCell: {
 			root: {
 				borderBottom: 'none',
+
 				padding: '5px 10px'
 			}
 		},
 		MuiChip: {
 			root: {
-				padding: 0
+				padding: 0,
+				height: '25px'
 			},
 			label: {
 				padding: 0

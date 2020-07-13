@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+	Avatar,
 	Typography,
 	Divider,
 	Box,
@@ -8,7 +9,6 @@ import {
 	TableBody,
 	TableContainer,
 	TableCell,
-	TableHead,
 	TableRow,
 	ThemeProvider
 } from '@material-ui/core';
@@ -17,6 +17,7 @@ import { theme } from './TableTheme';
 
 const useStyles = makeStyles((theme) => ({
 	text: {
+		display: 'flex',
 		padding: '10px'
 	},
 	tableContainer: {
@@ -24,18 +25,25 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column'
 	},
 	tableTag: {
-		minWidth: 200
+		minWidth: 150
 	},
 	tableData: {
 		display: 'flex',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		whiteSpace: 'normal',
+		wordBreak: 'break-word'
 	},
 	test: {
 		display: 'flex'
+	},
+	large: {
+		width: theme.spacing(8),
+		height: theme.spacing(8)
 	}
 }));
 
-const AnimeLogisticInfo = ({ anime, studios }) => {
+const AnimeLogisticInfo = ({ anime }) => {
 	const classes = useStyles();
 
 	const createData = (tag, data) => {
@@ -43,47 +51,58 @@ const AnimeLogisticInfo = ({ anime, studios }) => {
 	};
 
 	const rows = [
-		createData('Score:', `${anime.score} / 10`),
+		createData('Score:', `${anime.score ? anime.score : '?'} / 10`),
 		createData('Type:', anime.type),
 		createData('Source:', anime.source),
 		createData('Popularity:', `#${anime.popularity}`),
 		createData('Episodes:', anime.episodes)
 	];
 
-	const showStudios = () => {
-		return (
-			<TableRow className={classes.row} style={{ display: 'flex', alignItems: 'center' }} key={anime.title}>
-				<TableCell style={{ fontSize: '15px' }} className={classes.tableTag} component="th">
-					Studios:
-				</TableCell>
+	const showData = (animeTag, tagStr) => {
+		if (animeTag) {
+			return (
+				<TableRow style={{ display: 'flex', alignItems: 'center' }}>
+					<TableCell style={{ fontSize: '15px' }} className={classes.tableTag} component="th">
+						{`${tagStr}(s):`}
+					</TableCell>
 
-				<TableCell className={classes.tableData} component="td" align="left">
-					{studios.map((studio) => {
-						return (
-							<Box fontWeight="fontWeightLight" m={0.5}>
-								<Chip
-									style={{
-										background: 'linear-gradient(to top, rgb(32, 180, 238), rgb(32, 132, 238))',
-										color: '#fff',
-										fontSize: '13px'
-									}}
-									label={studio}
-									onClick={handleClick}
-								/>
-							</Box>
-						);
-					})}
-				</TableCell>
-			</TableRow>
-		);
+					<TableCell className={classes.tableData} component="td" align="left">
+						{animeTag.map(({ name }) => {
+							return (
+								<Box key={name} fontWeight="fontWeightLight" m={0.5}>
+									<Chip
+										style={{
+											background: 'linear-gradient(to top, rgb(32, 180, 238), rgb(32, 132, 238))',
+											color: '#fff',
+											fontSize: '13px'
+										}}
+										label={name}
+										onClick={handleClick}
+									/>
+								</Box>
+							);
+						})}
+					</TableCell>
+				</TableRow>
+			);
+		}
 	};
+
 	const handleClick = () => {};
-	console.log(studios);
+
 	return (
 		<div>
-			<Typography className={classes.text} component="h5" variant="h5" align="left">
-				{anime.title}
-			</Typography>
+			<div className={classes.text}>
+				<Avatar className={classes.large} alt="Anime image" src={anime.image_url} />
+				<div style={{ marginLeft: '90px' }}>
+					<Typography component="h5" variant="h5" align="left">
+						{anime.title}
+					</Typography>
+
+					<Typography>({anime.title_english})</Typography>
+					<Typography>({anime.title_japanese})</Typography>
+				</div>
+			</div>
 			<Divider />
 
 			<TableContainer>
@@ -96,7 +115,7 @@ const AnimeLogisticInfo = ({ anime, studios }) => {
 										{row.tag}
 									</TableCell>
 									<TableCell component="td" align="left">
-										<Box fontWeight="fontWeightLight" m={1}>
+										<Box fontWeight="fontWeightLight" m={0.5}>
 											<Chip
 												style={{
 													background:
@@ -110,7 +129,9 @@ const AnimeLogisticInfo = ({ anime, studios }) => {
 									</TableCell>
 								</TableRow>
 							))}
-							{showStudios()}
+							{showData(anime.studios, 'Studio')}
+							{showData(anime.genres, 'Genre')}
+							{showData(anime.licensors, 'Licensor')}
 						</TableBody>
 					</Table>
 				</ThemeProvider>

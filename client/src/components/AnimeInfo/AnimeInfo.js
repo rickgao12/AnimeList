@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid, Card, CardContent, CardMedia, Divider } from '@material-ui/core';
+import { Paper, Typography, Grid } from '@material-ui/core';
 import Recommendations from '../Recommendations';
 import AnimeLogisticInfo from './AnimeLogisticInfo';
+import Characters from './Characters';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -12,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 	paper: {
 		marginTop: theme.spacing(3),
 		padding: theme.spacing(2)
-		//height: '100%'
 	},
 
 	CardContent: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	media: {
 		margin: '0 auto',
-		height: 500,
+		height: 100,
 		width: '70%',
 		objectFit: 'cover',
 		[theme.breakpoints.down('lg')]: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	text: {
-		margin: 20
+		margin: '10px 0'
 	}
 }));
 
@@ -49,167 +49,86 @@ const AnimeInfo = ({ match }) => {
 
 	const id = match.params.id;
 	const [ animeData, setAnimeData ] = useState('');
-	const [ studio, setStudio ] = useState([]);
+	const [ characters, setCharacters ] = useState([]);
+
+	const getSong = (theme, array) => {
+		if (array) {
+			if (array.length > 0) {
+				return array.join(', ');
+			} else {
+				return `No ${theme} found`;
+			}
+		}
+	};
 
 	useEffect(
 		() => {
 			const getAnimeInfo = async () => {
 				const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}`);
 				setAnimeData(fetchData.data);
-				setStudio(fetchData.data.studios.map((studio) => studio.name));
 			};
 			getAnimeInfo();
 		},
 		[ id ]
 	);
 
-	//[Type, Score, Source, Popularity, Episodes, Aired]
+	useEffect(
+		() => {
+			const getCharacterInfo = async () => {
+				const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}/characters_staff`);
+				setCharacters(
+					fetchData.data.characters.map((character) => {
+						return { name: character.name, img_url: character.image_url };
+					})
+				);
+			};
+			getCharacterInfo();
+		},
+		[ id ]
+	);
+
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={1}>
-				<Grid item xs={2}>
-					<Paper elevation={2} className={classes.paper}>
-						<CardMedia
-							style={{ borderRadius: '10px' }}
-							component="img"
-							image={animeData.image_url}
-							alt={animeData.title}
-						/>
-					</Paper>
-				</Grid>
 				<Grid item xs={5}>
 					<Paper elevation={2} className={classes.paper}>
-						<AnimeLogisticInfo anime={animeData} studios={studio} />
-					</Paper>
-				</Grid>
-
-				<Grid item xs={4}>
-					<Paper elevation={2} className={classes.paper}>
-						<Typography style={{ margin: '5px 0' }} align="left" variant="h5">
-							Synopsis
-						</Typography>
-						<Typography align="left">{animeData.synopsis}</Typography>
-					</Paper>
-				</Grid>
-
-				<Grid item xs={9}>
-					<Paper elevation={1} className={classes.paper}>
-						<Typography variant="h5">Anime similar to {animeData.title}</Typography>
-						<Recommendations id={id} />
+						<AnimeLogisticInfo anime={animeData} />
 					</Paper>
 				</Grid>
 
 				<Grid item xs={7}>
 					<Paper elevation={2} className={classes.paper}>
-						PLACEHOLDER
+						<Typography className={classes.text} variant="h5">
+							Anime similar to {animeData.title}
+						</Typography>
+						<Recommendations id={id} />
+						<Typography style={{ marginTop: '23px' }} className={classes.text} variant="h6">
+							Opening Themes:
+							<Typography noWrap>{getSong('opening themes', animeData.opening_themes)}</Typography>
+						</Typography>
+						<Typography className={classes.text} variant="h6">
+							Ending Themes:
+							<Typography noWrap>{getSong('ending themes', animeData.ending_themes)}</Typography>
+						</Typography>
 					</Paper>
 				</Grid>
 
-				{/* <Grid item container xs={12} md={6} lg={6} spacing={0}>
-				<Grid item xs={6} md={12} xl={6}>
-					<Card variant="outlined">
-						<CardContent
-							style={{ display: 'flex', justifyContent: 'center' }}
-							className={classes.CardContent}
-						>
-							<Typography align="left" display="initial">
-								Type:&nbsp;
-							</Typography>
-							<Typography>{animeData.type}</Typography>
-						</CardContent>
-					</Card>
+				<Grid item xs={5}>
+					<Paper elevation={2} className={classes.paper}>
+						<Typography className={classes.text} align="left" variant="h5">
+							Synopsis
+						</Typography>
+						<Typography align="left">
+							{animeData.synopsis ? animeData.synopsis : 'No synopsis found'}
+						</Typography>
+					</Paper>
 				</Grid>
-				<Grid item xs={6} md={12} xl={6}>
-					<Card variant="outlined">
-						<CardContent
-							style={{ display: 'flex', justifyContent: 'center' }}
-							className={classes.CardContent}
-						>
-							<Typography align="left" display="initial">
-								Score:&nbsp;
-							</Typography>
-							<Typography>{animeData.score}</Typography>
-						</CardContent>
-					</Card>
+
+				<Grid item xs={7}>
+					<Paper elevation={2} className={classes.paper}>
+						<Characters characters={characters} />
+					</Paper>
 				</Grid>
-				<Grid item xs={6} md={12} xl={6}>
-					<Card variant="outlined">
-						<CardContent
-							style={{ display: 'flex', justifyContent: 'center' }}
-							className={classes.CardContent}
-						>
-							<Typography align="left" display="initial">
-								Source:&nbsp;
-							</Typography>
-							<Typography>{animeData.source}</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={6} md={12} xl={6}>
-					<Card variant="outlined">
-						<CardContent
-							style={{ display: 'flex', justifyContent: 'center' }}
-							className={classes.CardContent}
-						>
-							<Typography align="left" display="initial">
-								Popularity:&nbsp;
-							</Typography>
-							<Typography>#{animeData.popularity}</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={6} md={12} xl={6}>
-					<Card variant="outlined">
-						<CardContent
-							style={{ display: 'flex', justifyContent: 'center' }}
-							className={classes.CardContent}
-						>
-							<Typography align="left" display="initial">
-								Episodes:&nbsp;
-							</Typography>
-							<Typography>{animeData.episodes}</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={6} md={12} xl={6}>
-					<Card variant="outlined">
-						<CardContent className={classes.CardContent}>
-							<div style={{ display: 'flex', justifyContent: 'center' }}>
-								<Typography display="initial">Studios:&nbsp;</Typography>
-								<Typography noWrap>{studio.join()}</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={12} md={12} xl={12}>
-					<Card variant="outlined">
-						<CardContent
-							style={{ display: 'flex', justifyContent: 'center' }}
-							className={classes.CardContent}
-						>
-							<Typography variant="h5">Synopsis</Typography>
-							<Typography style={{ padding: '5px' }} align="left">
-								{animeData.synopsis}
-							</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-			<Grid item xs={12} md={6} lg={6}>
-				<CardMedia
-					style={{ borderRadius: '10px' }}
-					className={classes.media}
-					component="img"
-					image={animeData.image_url}
-					alt={animeData.title}
-				/>
-			</Grid>
-			<Grid item xs={12}>
-				<Typography className={classes.text} variant="h5">
-					Anime similar to {animeData.title}
-				</Typography>
-				<Recommendations id={id} />
-			</Grid> */}
 			</Grid>
 		</div>
 	);
