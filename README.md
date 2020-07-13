@@ -1,7 +1,7 @@
 # Animely 
 [ ![Netlify Status](https://api.netlify.com/api/v1/badges/16817d14-dab9-4e49-8fdd-cf52cecdbeb7/deploy-status)](https://app.netlify.com/sites/animely/deploys)
 Search for the most up to date information about your favorite anime with **Animely**. 
-Search for the most up to date information about your favorite anime with **Animely**. 
+Made with the React framework and Material UI for responsive design
 ## Features
  - Clean interface and simple navigation
  - Easily see what is currently airing this season and what is coming in the future
