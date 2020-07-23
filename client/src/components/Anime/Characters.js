@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardMedia, CardActionArea, Typography, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -13,8 +14,24 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const Characters = ({ characters }) => {
+const Characters = ({ id }) => {
 	const classes = useStyles();
+	const [ characters, setCharacters ] = useState([]);
+
+	useEffect(
+		() => {
+			const getCharacterInfo = async () => {
+				const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}/characters_staff`);
+				setCharacters(
+					fetchData.data.characters.map((character) => {
+						return { name: character.name, img_url: character.image_url };
+					})
+				);
+			};
+			getCharacterInfo();
+		},
+		[ id ]
+	);
 
 	const getCharacters = () => {
 		return (
@@ -24,7 +41,14 @@ const Characters = ({ characters }) => {
 						<Grid key={name} item xs={'auto'}>
 							<Card className={classes.root}>
 								<CardActionArea>
-									<CardMedia className={classes.media} component="img" alt={name} image={img_url} />
+									<CardMedia
+										className={classes.media}
+										component="img"
+										alt={name}
+										image={img_url}
+										loading="lazy"
+									/>
+
 									<CardContent>
 										<Typography gutterBottom style={{ fontSize: '14px' }}>
 											{name}

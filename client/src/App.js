@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Landing from './layout/Landing';
 import Header from './layout/Header';
-import Seasonals from './components/Seasonals';
+import Seasonals from './components/Seasonal/Seasonals';
 import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Footer from './layout/Footer';

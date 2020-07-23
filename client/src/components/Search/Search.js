@@ -3,7 +3,7 @@ import axios from 'axios';
 import AnimeEntry from './SearchEntry';
 import { Grid, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AnimeContext } from '../utils/AnimeContext';
+import { AnimeContext } from '../../utils/AnimeContext';
 
 const useStyles = makeStyles(() => ({
 	root: {

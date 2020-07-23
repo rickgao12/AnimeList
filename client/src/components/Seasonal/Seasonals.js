@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { GridList, GridListTile, GridListTileBar, IconButton, Typography, CircularProgress } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import { GridList, Typography, CircularProgress } from '@material-ui/core';
+
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import { Link } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Tile from '../Tile';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,13 +20,6 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		height: 'auto'
-	},
-	tile: {
-		height: '100%',
-		padding: 0
-	},
-	icon: {
-		color: 'rgba(255, 255, 255, 0.54)'
 	},
 	text: { display: 'flex', alignItems: 'center', margin: '20px' }
 }));
@@ -95,26 +88,10 @@ const Seasonals = (props) => {
 
 				<GridList cols={getCols()} cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
 					{loaded ? (
-						seasonalList.map(({ image_url, title, mal_id }) => {
+						seasonalList.map(({ image_url, title, mal_id, score }) => {
 							return (
 								<div key={title} className={classes.root}>
-									<GridListTile className={classes.tile}>
-										<img className={classes.tile} style={{}} src={image_url} alt={title} />
-										<GridListTileBar
-											title={title}
-											subtitle={<span>by: {title}</span>}
-											actionIcon={
-												<Link to={`/id/${mal_id}`}>
-													<IconButton
-														aria-label={`info about ${title}`}
-														className={classes.icon}
-													>
-														<InfoIcon />
-													</IconButton>
-												</Link>
-											}
-										/>
-									</GridListTile>
+									<Tile mal_id={mal_id} image_url={image_url} title={title} score={score} />
 								</div>
 							);
 						})
@@ -132,26 +109,10 @@ const Seasonals = (props) => {
 
 				<GridList cols={getCols()} cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
 					{laterDataLoaded ? (
-						laterAnimeList.map(({ image_url, title, mal_id }) => {
+						laterAnimeList.map(({ image_url, title, mal_id, score }) => {
 							return (
 								<div key={title} className={classes.root}>
-									<GridListTile className={classes.tile}>
-										<img className={classes.tile} src={image_url} alt={title} />
-										<GridListTileBar
-											title={title}
-											subtitle={<span>by: {title}</span>}
-											actionIcon={
-												<Link to={`/id/${mal_id}`}>
-													<IconButton
-														aria-label={`info about ${title}`}
-														className={classes.icon}
-													>
-														<InfoIcon />
-													</IconButton>
-												</Link>
-											}
-										/>
-									</GridListTile>
+									<Tile mal_id={mal_id} image_url={image_url} title={title} score={score} />
 								</div>
 							);
 						})

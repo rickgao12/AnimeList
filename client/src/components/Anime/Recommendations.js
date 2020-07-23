@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { GridListTile, GridListTileBar, IconButton, GridList, CircularProgress } from '@material-ui/core';
+import { GridList, CircularProgress } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Link } from 'react-router-dom';
-import InfoIcon from '@material-ui/icons/Info';
+
+import Tile from '../Tile';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,13 +18,6 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		height: 'auto'
-	},
-	tile: {
-		height: '100%',
-		padding: 0
-	},
-	icon: {
-		color: 'rgba(255, 255, 255, 0.54)'
 	}
 }));
 
@@ -61,23 +54,15 @@ const Recommendations = ({ id }) => {
 
 	const renderRecList = () => {
 		if (recommendationList.length > 1) {
-			return recommendationList.map(({ mal_id, image_url, title }) => {
+			return recommendationList.map(({ mal_id, image_url, title, score, recommendation_count }) => {
 				return (
 					<div key={title}>
-						<GridListTile className={classes.tile}>
-							<img className={classes.tile} src={image_url} alt={title} />
-							<GridListTileBar
-								title={title}
-								subtitle={<span>by: {title}</span>}
-								actionIcon={
-									<Link to={`/id/${mal_id}`}>
-										<IconButton aria-label={`info about ${title}`} className={classes.icon}>
-											<InfoIcon />
-										</IconButton>
-									</Link>
-								}
-							/>
-						</GridListTile>
+						<Tile
+							mal_id={mal_id}
+							image_url={image_url}
+							title={title}
+							recommendation_count={recommendation_count}
+						/>
 					</div>
 				);
 			});
