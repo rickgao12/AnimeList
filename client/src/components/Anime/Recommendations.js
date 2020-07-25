@@ -77,6 +77,7 @@ const Recommendations = ({ id }) => {
 		<div>
 			<GridList className={classes.gridList} cols={getCols()} cellHeight={250} style={{ overflow: 'hidden' }}>
 				{loaded ? renderRecList() : <CircularProgress style={{ width: '5%', height: '5%' }} />}
+				
 			</GridList>
 		</div>
 	);

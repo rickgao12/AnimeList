@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid } from '@material-ui/core';
+import { Paper, Typography, Grid, CircularProgress } from '@material-ui/core';
+
 import Recommendations from './Recommendations';
+
 import Stats from './Stats';
+
 import Characters from './Characters';
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +68,7 @@ const AnimeInfo = ({ match }) => {
 				const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}`);
 				setAnimeData(fetchData.data);
 			};
-			getAnimeInfo();
+			getAnimeInfo();	
 		},
 		[ id ]
 	);
@@ -84,7 +87,9 @@ const AnimeInfo = ({ match }) => {
 						<Typography className={classes.text} variant="h5">
 							Anime similar to {animeData.title}
 						</Typography>
+
 						<Recommendations id={id} />
+
 						<Typography style={{ marginTop: '23px' }} className={classes.text} variant="h6">
 							Opening Themes:
 							<Typography noWrap>{getSong('opening themes', animeData.opening_themes)}</Typography>

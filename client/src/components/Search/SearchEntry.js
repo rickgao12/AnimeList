@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const styles = () => ({
 	root: {
-		maxWidth: 400
+		width: 400
 	},
 	media: {
 		height: 500,
@@ -14,9 +14,9 @@ const styles = () => ({
 	}
 });
 
-class AnimeEntry extends Component {
+class SearchEntry extends Component {
 	render() {
-		const { image_url, title, synopsis, url, classes, mal_id } = this.props;
+		const { image_url, title, synopsis, classes, mal_id } = this.props;
 
 		return (
 			<Card className={classes.root}>
@@ -37,14 +37,10 @@ class AnimeEntry extends Component {
 							Learn more
 						</Button>
 					</Link>
-
-					<Button href={url} size="small" color="primary">
-						MyAnimeList
-					</Button>
 				</CardActions>
 			</Card>
 		);
 	}
 }
 
-export default withStyles(styles)(AnimeEntry);
+export default withStyles(styles)(SearchEntry);

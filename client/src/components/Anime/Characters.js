@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Characters = ({ id }) => {
 	const classes = useStyles();
 	const [ characters, setCharacters ] = useState([]);
+	const [ loaded, setLoaded ] = useState(false);
 
 	useEffect(
 		() => {
@@ -27,6 +28,7 @@ const Characters = ({ id }) => {
 						return { name: character.name, img_url: character.image_url };
 					})
 				);
+				setLoaded(true);
 			};
 			getCharacterInfo();
 		},
@@ -71,7 +73,7 @@ const Characters = ({ id }) => {
 						{`All Characters (${characters.length} found)`}
 					</Typography>
 				</Grid>
-				{characters ? getCharacters() : <CircularProgress />}
+				{loaded && characters ? getCharacters() : <CircularProgress />}
 			</Grid>
 		</div>
 	);

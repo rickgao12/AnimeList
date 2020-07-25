@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
 import LiveTvIcon from '@material-ui/icons/LiveTv';
 import SearchIcon from '@material-ui/icons/Search';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 const useStyles = makeStyles((theme) => ({
 	root: {},
@@ -44,13 +45,19 @@ const Header = () => {
 				<Typography className={classes.logo} variant="h4" color="inherit" noWrap>
 					Animely
 				</Typography>
-
 				<Link to="/">
 					<Button classes={{ label: classes.label }}>
 						<SearchIcon className={classes.icon} />
 						Search
 					</Button>
 				</Link>
+				<Link to="/top">
+					<Button classes={{ label: classes.label }}>
+						<BarChartIcon className={classes.icon} />
+						Top Anime
+					</Button>
+				</Link>
+
 				<Link to="/seasonals">
 					<Button classes={{ label: classes.label }}>
 						<LiveTvIcon className={classes.icon} />

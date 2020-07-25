@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import AnimeEntry from './SearchEntry';
+import SearchEntry from './SearchEntry';
 import { Grid, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AnimeContext } from '../../utils/AnimeContext';
@@ -38,16 +38,10 @@ const Search = (props) => {
 		<div>
 			<Grid container style={{ marginTop: 20 }} alignItems="flex-start" justify="center" spacing={0}>
 				{loaded && anime ? (
-					animeList.map(({ mal_id, image_url, title, synopsis, url }) => {
+					animeList.map(({ mal_id, image_url, title, synopsis }) => {
 						return (
 							<Grid item key={title} xs={'auto'} style={{ margin: 10 }}>
-								<AnimeEntry
-									mal_id={mal_id}
-									image_url={image_url}
-									title={title}
-									synopsis={synopsis}
-									url={url}
-								/>
+								<SearchEntry mal_id={mal_id} image_url={image_url} title={title} synopsis={synopsis} />
 							</Grid>
 						);
 					})
