@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid, CircularProgress } from '@material-ui/core';
+import { Paper, Typography, Grid } from '@material-ui/core';
 
 import Recommendations from './Recommendations';
 
@@ -68,7 +68,7 @@ const AnimeInfo = ({ match }) => {
 				const fetchData = await axios.get(`https://api.jikan.moe/v3/anime/${id}`);
 				setAnimeData(fetchData.data);
 			};
-			getAnimeInfo();	
+			getAnimeInfo();
 		},
 		[ id ]
 	);
