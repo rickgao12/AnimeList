@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { GridList, Typography, CircularProgress } from '@material-ui/core';
-
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -36,13 +35,10 @@ function useWidth() {
 	);
 }
 
-const Seasonals = (props) => {
+const Seasonals = () => {
 	const [ seasonalList, setSeasonalList ] = useState([]);
-	const [ seasonName, setSeasonName ] = useState('');
-	const [ seasonYear, setSeasonYear ] = useState('');
 	const [ loaded, setLoaded ] = useState(false);
 	const [ laterDataLoaded, setLaterDataLoaded ] = useState(false);
-
 	const [ laterAnimeList, setLaterAnimeList ] = useState([]);
 	const width = useWidth();
 	const classes = useStyles();
@@ -50,11 +46,7 @@ const Seasonals = (props) => {
 	useEffect(() => {
 		const getSeasonalData = async () => {
 			const search = await axios.get('https://api.jikan.moe/v3/season');
-			const { anime, season_name, season_year } = search.data;
-
-			setSeasonalList(anime.slice(0, 15));
-			setSeasonName(season_name);
-			setSeasonYear(season_year);
+			setSeasonalList({ ...search.data, anime: search.data.anime.slice(0, 15) });
 			setLoaded(true);
 		};
 		getSeasonalData();
@@ -71,7 +63,7 @@ const Seasonals = (props) => {
 		getFutureData();
 	}, []);
 
-	const getCols = () => (width === 'xl' ? 6 : width === 'lg' ? 5 : width === 'md' ? 3 : width === 'sm' ? 2 : 1);
+	const getCols = () => (width === 'xl' ? 5 : width === 'lg' ? 4 : width === 'md' ? 3 : width === 'sm' ? 2 : 1);
 
 	return (
 		<div>
@@ -81,14 +73,14 @@ const Seasonals = (props) => {
 					<Typography variant="h5">
 						Top Picks for: &nbsp;
 						<span style={{ color: 'blue' }}>
-							{seasonName} {seasonYear}
+							{seasonalList.season_name} {seasonalList.season_year}
 						</span>
 					</Typography>
 				</div>
 
 				<GridList cols={getCols()} cellHeight={250} className={classes.gridList} style={{ overflow: 'hidden' }}>
 					{loaded ? (
-						seasonalList.map(({ image_url, title, mal_id, score }) => {
+						seasonalList.anime.map(({ image_url, title, mal_id, score }) => {
 							return (
 								<div key={title} className={classes.root}>
 									<Tile mal_id={mal_id} image_url={image_url} title={title} score={score} />
