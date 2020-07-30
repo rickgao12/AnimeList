@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { GridList, Typography, CircularProgress } from '@material-ui/core';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useWidth } from '../../utils/Width';
 import Tile from '../Tile';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,18 +22,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	text: { display: 'flex', alignItems: 'center', margin: '20px' }
 }));
-
-function useWidth() {
-	const theme = useTheme();
-	const keys = [ ...theme.breakpoints.keys ].reverse();
-	return (
-		keys.reduce((output, key) => {
-			// eslint-disable-next-line react-hooks/rules-of-hooks
-			const matches = useMediaQuery(theme.breakpoints.up(key));
-			return !output && matches ? key : output;
-		}, null) || 'xs'
-	);
-}
 
 const Seasonals = () => {
 	const [ seasonalList, setSeasonalList ] = useState([]);

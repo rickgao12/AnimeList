@@ -1,13 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
 import LiveTvIcon from '@material-ui/icons/LiveTv';
-import SearchIcon from '@material-ui/icons/Search';
 import BarChartIcon from '@material-ui/icons/BarChart';
 
 const useStyles = makeStyles((theme) => ({
-	root: {},
 	logo: {
 		flexGrow: 1,
 		marginLeft: '1%',
@@ -35,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Header = () => {
 	const classes = useStyles();
+	const auth = useSelector((state) => state.auth);
 
 	return (
 		<AppBar
@@ -45,12 +45,28 @@ const Header = () => {
 				<Typography className={classes.logo} variant="h4" color="inherit" noWrap>
 					Animely
 				</Typography>
-				<Link to="/">
-					<Button classes={{ label: classes.label }}>
-						<SearchIcon className={classes.icon} />
-						Search
-					</Button>
-				</Link>
+
+				<Button classes={{ label: classes.label }}>
+					{auth ? (
+						<a href="/api/logout" style={{ color: 'white' }}>
+							Logout
+						</a>
+					) : auth === false ? (
+						<a href="/auth/google" style={{ color: 'white' }}>
+							Login with Google
+						</a>
+					) : (
+						''
+					)}
+				</Button>
+				{auth ? (
+					<Link to="/favorite" style={{ color: 'white' }}>
+						<Button classes={{ label: classes.label }}>Favorites</Button>
+					</Link>
+				) : (
+					''
+				)}
+
 				<Link to="/top">
 					<Button classes={{ label: classes.label }}>
 						<BarChartIcon className={classes.icon} />

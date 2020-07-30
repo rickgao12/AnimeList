@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GridList, CircularProgress } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import { makeStyles } from '@material-ui/core/styles';
+import { useWidth } from '../../utils/Width';
 import Tile from '../Tile';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,18 +19,6 @@ const useStyles = makeStyles((theme) => ({
 		height: 'auto'
 	}
 }));
-
-function useWidth() {
-	const theme = useTheme();
-	const keys = [ ...theme.breakpoints.keys ].reverse();
-	return (
-		keys.reduce((output, key) => {
-			// eslint-disable-next-line react-hooks/rules-of-hooks
-			const matches = useMediaQuery(theme.breakpoints.up(key));
-			return !output && matches ? key : output;
-		}, null) || 'xs'
-	);
-}
 
 const Recommendations = ({ id }) => {
 	const classes = useStyles();
@@ -77,7 +64,6 @@ const Recommendations = ({ id }) => {
 		<div>
 			<GridList className={classes.gridList} cols={getCols()} cellHeight={250} style={{ overflow: 'hidden' }}>
 				{loaded ? renderRecList() : <CircularProgress style={{ width: '5%', height: '5%' }} />}
-				
 			</GridList>
 		</div>
 	);

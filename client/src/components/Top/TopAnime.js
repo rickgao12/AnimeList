@@ -32,7 +32,6 @@ const TopAnime = () => {
 		},
 		[ page ]
 	);
-	console.log(page);
 	return (
 		<div className={classes.root}>
 			<div className={classes.button}>

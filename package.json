@@ -1,0 +1,37 @@
+{
+	"name": "animeProject",
+	"version": "1.0.0",
+	"description": "Search for the most up to date information about your favorite anime with **Animely**. \r Made with the React framework and Material UI for responsive design\r ## Features\r  - Clean interface and simple navigation\r  - Easily see what is currently airing this season and what is coming in the future\r  - Ability to see the logistics of each anime and recommendations",
+	"main": "index.js",
+	"engines": {
+		"node": "12.18.0",
+		"npm": "6.13.4"
+	},
+	"scripts": {
+		"start": "node index.js",
+		"backend": "nodemon server/index.js",
+		"dev": "concurrently \"npm run backend\" \"npm run start --prefix client\"",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rickgao12/AnimeList.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/rickgao12/AnimeList/issues"
+	},
+	"homepage": "https://github.com/rickgao12/AnimeList#readme",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"concurrently": "^5.2.0",
+		"cookie-session": "^1.4.0",
+		"express": "^4.17.1",
+		"mongoose": "^5.9.26",
+		"nodemon": "^2.0.4",
+		"passport": "^0.4.1",
+		"passport-google-oauth20": "^2.0.0"
+	}
+}

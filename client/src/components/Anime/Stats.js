@@ -10,10 +10,14 @@ import {
 	TableContainer,
 	TableCell,
 	TableRow,
-	ThemeProvider
+	ThemeProvider,
+	Button
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { theme } from '../../utils/TableTheme';
+import { submitFavorites } from '../../actions';
+import { useDispatch } from 'react-redux';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
 	text: {
@@ -41,12 +45,17 @@ const useStyles = makeStyles((theme) => ({
 	large: {
 		width: theme.spacing(8),
 		height: theme.spacing(8)
+	},
+	small: {
+		borderRadius: '1000px',
+		marginLeft: '5%',
+		height: '30%'
 	}
 }));
 
-const AnimeLogisticInfo = ({ anime }) => {
+const Stats = ({ anime }) => {
 	const classes = useStyles();
-
+	const dispatch = useDispatch();
 	const createData = (tag, data) => {
 		return { tag, data };
 	};
@@ -58,6 +67,12 @@ const AnimeLogisticInfo = ({ anime }) => {
 		createData('Popularity:', `#${anime.popularity}`),
 		createData('Episodes:', anime.episodes)
 	];
+
+	const values = {
+		title: anime.title,
+		id: anime.mal_id,
+		imgUrl: anime.image_url
+	};
 
 	const showData = (animeTag, tagStr) => {
 		if (animeTag) {
@@ -87,7 +102,7 @@ const AnimeLogisticInfo = ({ anime }) => {
 		<div>
 			<div className={classes.text}>
 				<Avatar className={classes.large} alt="Anime image" src={anime.image_url} />
-				<div style={{ marginLeft: '90px' }}>
+				<div style={{ marginLeft: '10%' }}>
 					<Typography component="h5" variant="h5" align="left">
 						{anime.title}
 					</Typography>
@@ -95,6 +110,14 @@ const AnimeLogisticInfo = ({ anime }) => {
 					<Typography>({anime.title_english})</Typography>
 					<Typography>({anime.title_japanese})</Typography>
 				</div>
+				<Button
+					className={classes.small}
+					variant="contained"
+					color="secondary"
+					onClick={() => dispatch(submitFavorites(values))}
+				>
+					<AddIcon />
+				</Button>
 			</div>
 			<Divider />
 
@@ -125,4 +148,4 @@ const AnimeLogisticInfo = ({ anime }) => {
 	);
 };
 
-export default AnimeLogisticInfo;
+export default Stats;

@@ -7,8 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
 	tile: {
 		height: '100%',
-		padding: 0
+		padding: 0,
+		marginTop: 5
 	},
+
 	icon: {
 		color: 'rgba(255, 255, 255, 0.54)'
 	}
@@ -23,7 +25,13 @@ const Tile = ({ title, image_url, score, mal_id, recommendation_count }) => {
 				title={title}
 				subtitle={
 					<span>
-						{recommendation_count ? `Total: ${recommendation_count}` : `Score: ${score ? score : '?'} / 10`}
+						{recommendation_count ? (
+							`Total: ${recommendation_count}`
+						) : score ? (
+							`Score: ${score ? score : '?'} / 10`
+						) : (
+							''
+						)}
 					</span>
 				}
 				actionIcon={

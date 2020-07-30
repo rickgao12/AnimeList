@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, Grid } from '@material-ui/core';
-
 import Recommendations from './Recommendations';
-
 import Stats from './Stats';
-
 import Characters from './Characters';
 
 const useStyles = makeStyles((theme) => ({
