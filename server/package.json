@@ -1,5 +1,5 @@
 {
-	"name": "animeProject",
+	"name": "animeproject",
 	"version": "1.0.0",
 	"description": "Search for the most up to date information about your favorite anime with **Animely**. \r Made with the React framework and Material UI for responsive design\r ## Features\r  - Clean interface and simple navigation\r  - Easily see what is currently airing this season and what is coming in the future\r  - Ability to see the logistics of each anime and recommendations",
 	"main": "index.js",
@@ -11,8 +11,7 @@
 		"start": "node index.js",
 		"backend": "nodemon server/index.js",
 		"dev": "concurrently \"npm run backend\" \"npm run start --prefix client\"",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-		"build": "concurrently \"cd client && npm run build\" \"npm build \""
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},
 	"repository": {
 		"type": "git",
