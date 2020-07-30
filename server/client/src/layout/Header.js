@@ -43,7 +43,9 @@ const Header = () => {
 		>
 			<Toolbar disableGutters>
 				<Typography className={classes.logo} variant="h4" color="inherit" noWrap>
-					Animely
+					<Link style={{ color: 'white' }} to="/">
+						Animely
+					</Link>
 				</Typography>
 
 				<Button classes={{ label: classes.label }}>

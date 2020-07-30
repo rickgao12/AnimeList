@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
 	Avatar,
 	Typography,
@@ -100,50 +100,56 @@ const Stats = ({ anime }) => {
 
 	return (
 		<div>
-			<div className={classes.text}>
-				<Avatar className={classes.large} alt="Anime image" src={anime.image_url} />
-				<div style={{ marginLeft: '10%' }}>
-					<Typography component="h5" variant="h5" align="left">
-						{anime.title}
-					</Typography>
+			<Suspense fallback={<h1>Loading...</h1>}>
+				<div className={classes.text}>
+					<Avatar className={classes.large} alt="Anime image" src={anime.image_url} />
+					<div style={{ marginLeft: '10%' }}>
+						<Typography component="h5" variant="h5" align="left">
+							{anime.title}
+						</Typography>
 
-					<Typography>({anime.title_english})</Typography>
-					<Typography>({anime.title_japanese})</Typography>
+						<Typography>({anime.title_english})</Typography>
+						<Typography>({anime.title_japanese})</Typography>
+					</div>
+					<Button
+						className={classes.small}
+						variant="contained"
+						color="secondary"
+						onClick={() => dispatch(submitFavorites(values))}
+					>
+						<AddIcon />
+					</Button>
 				</div>
-				<Button
-					className={classes.small}
-					variant="contained"
-					color="secondary"
-					onClick={() => dispatch(submitFavorites(values))}
-				>
-					<AddIcon />
-				</Button>
-			</div>
-			<Divider />
+				<Divider />
 
-			<TableContainer>
-				<ThemeProvider theme={theme}>
-					<Table aria-label="simple table">
-						<TableBody className={classes.tableContainer}>
-							{rows.map((row) => (
-								<TableRow key={row.tag}>
-									<TableCell style={{ fontSize: '15px' }} className={classes.tableTag} component="th">
-										{row.tag}
-									</TableCell>
-									<TableCell component="td" align="left">
-										<Box fontWeight="fontWeightLight" m={0.5}>
-											<Chip className={classes.chip} label={row.data} onClick={handleClick} />
-										</Box>
-									</TableCell>
-								</TableRow>
-							))}
-							{showData(anime.studios, 'Studio')}
-							{showData(anime.genres, 'Genre')}
-							{showData(anime.licensors, 'Licensor')}
-						</TableBody>
-					</Table>
-				</ThemeProvider>
-			</TableContainer>
+				<TableContainer>
+					<ThemeProvider theme={theme}>
+						<Table aria-label="simple table">
+							<TableBody className={classes.tableContainer}>
+								{rows.map((row) => (
+									<TableRow key={row.tag}>
+										<TableCell
+											style={{ fontSize: '15px' }}
+											className={classes.tableTag}
+											component="th"
+										>
+											{row.tag}
+										</TableCell>
+										<TableCell component="td" align="left">
+											<Box fontWeight="fontWeightLight" m={0.5}>
+												<Chip className={classes.chip} label={row.data} onClick={handleClick} />
+											</Box>
+										</TableCell>
+									</TableRow>
+								))}
+								{showData(anime.studios, 'Studio')}
+								{showData(anime.genres, 'Genre')}
+								{showData(anime.licensors, 'Licensor')}
+							</TableBody>
+						</Table>
+					</ThemeProvider>
+				</TableContainer>
+			</Suspense>
 		</div>
 	);
 };

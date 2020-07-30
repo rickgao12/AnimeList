@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid } from '@material-ui/core';
+import { Paper, Typography, Grid, CircularProgress } from '@material-ui/core';
 import Recommendations from './Recommendations';
-import Stats from './Stats';
-import Characters from './Characters';
+const Stats = React.lazy(() => import('./Stats'));
+const Characters = React.lazy(() => import('./Characters'));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -75,7 +75,9 @@ const AnimeInfo = ({ match }) => {
 			<Grid container spacing={1}>
 				<Grid item xs={12} md={6} xl={5}>
 					<Paper elevation={2} className={classes.paper}>
-						<Stats anime={animeData} />
+						<Suspense fallback={<CircularProgress />}>
+							<Stats anime={animeData} />
+						</Suspense>
 					</Paper>
 				</Grid>
 
@@ -111,7 +113,9 @@ const AnimeInfo = ({ match }) => {
 
 				<Grid item xs={12} xl={7}>
 					<Paper elevation={2} className={classes.paper}>
-						<Characters id={id} />
+						<Suspense fallback={<CircularProgress />}>
+							<Characters id={id} />
+						</Suspense>
 					</Paper>
 				</Grid>
 			</Grid>
