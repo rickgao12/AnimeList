@@ -3,8 +3,8 @@
 Search for the most up to date information about your favorite anime with **Animely**. 
 Made with the React framework and Material UI for responsive design
 
-[img](https://github.com/rickgao12/Animely/blob/master/animely3.JPG)
-[img](https://github.com/rickgao12/Animely/blob/master/animely4.jpg)
+[img](client/public/animely3.JPG)
+[img](client/public/animely4.jpg)
 
 
 
