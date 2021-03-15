@@ -57,7 +57,8 @@ const Search = (props) => {
 						</div>
 					</div>
 				) : (
-					<CircularProgress />
+					console.log("error")
+					
 				)}
 			</Grid>
 		</div>
